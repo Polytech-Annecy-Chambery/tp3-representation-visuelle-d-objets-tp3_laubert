@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Nov 16 19:47:50 2017
-
-@author: lfoul
-"""
 import pygame
 import OpenGL.GL as gl
 import OpenGL.GLU as glu
@@ -74,7 +68,8 @@ class Configuration:
 
         gl.glMatrixMode(gl.GL_MODELVIEW)
         gl.glLoadIdentity()
-        gl.glTranslatef(0.0,0.0, self.parameters['screenPosition'])       
+        gl.glTranslatef(0.0,0.0, self.parameters['screenPosition'])
+        gl.glRotate(-90,1,0,0) #Permet la rotation des axes, y passe en profondeur, z en vertical
         
     # Getter
     def getParameter(self, parameterKey):
@@ -85,6 +80,7 @@ class Configuration:
         self.parameters[parameterKey] = parameterValue
         if parameterKey == 'screenPosition':
             self.initializeTransformationMatrix()
+        
         return self    
 
     # Generates the axis coordinates in the real space        
@@ -146,13 +142,37 @@ class Configuration:
         elif self.event.dict['unicode'] == 'a' or self.event.key == pygame.K_a:
             self.parameters['axes'] = not self.parameters['axes']
             pygame.time.wait(300)
+        # Grossi l'affichage-Page Up
+        elif self.event.key == pygame.K_PAGEUP: 
+            gl.glScale(1.1,1.1,1.1)
+        # Réduit l'affichage-Page Down
+        elif self.event.key == pygame.K_PAGEDOWN:
+            gl.glScale(1/1.1,1/1.1,1/1.1)
     
     # Processes the MOUSEBUTTONDOWN event
     def processMouseButtonDownEvent(self):
+        if self.event.type == pygame.MOUSEBUTTONDOWN:  
+            # Zoom avant avec souris
+            if self.event.button == 4:
+                gl.glScale(1.1,1.1,1.1)
+            # Zoom arrière avec souris
+            elif self.event.button == 5:
+                gl.glScale(1/1.1,1/1.1,1/1.1)
         pass
     
     # Processes the MOUSEMOTION event
     def processMouseMotionEvent(self):
+        if self.event.type == pygame.MOUSEMOTION:
+            # Rotation clic gauche souris et translation clic droit souris
+            if pygame.mouse.get_pressed()[0] == 1:
+                gl.glRotate(self.event.rel[0], 1, 0, 0)
+                gl.glRotate(self.event.rel[1], 0, 0, 1)
+            else:
+                 gl.glRotate(0, 0, 0, 0)
+            if pygame.mouse.get_pressed()[2] == 1:
+                gl.glTranslate(0.1*self.event.rel[0], 0, 0.1*self.event.rel[1])
+            else:
+                gl.glTranslate(0,0,0)
         pass
          
     # Displays on screen and processes events    
