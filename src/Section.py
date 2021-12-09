@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Nov 16 19:47:50 2017
-
-@author: lfoul
-"""
 import OpenGL.GL as gl
 
 class Section:
@@ -52,11 +46,23 @@ class Section:
 
     # Defines the vertices and faces 
     def generate(self):
-        self.vertices = [ 
-                # Définir ici les sommets
+        self.vertices = [                 
+                [0, 0, 0 ],
+                [self.parameters['width'],0,0],
+                [0,self.parameters['thickness'],0],
+                [0, 0, self.parameters['height']],
+                [self.parameters['width'], self.parameters['thickness'],0],
+                [self.parameters['width'], 0, self.parameters['height']],
+                [0, self.parameters['thickness'], self.parameters['height']],
+                [self.parameters['width'], self.parameters['thickness'], self.parameters['height']]
                 ]
         self.faces = [
-                # définir ici les faces
+                [0, 1, 5, 3],
+                [1, 4, 7, 5],
+                [4, 2, 6, 7],
+                [2, 0, 3, 6],
+                [3, 5, 7, 6],
+                [0, 1, 4, 2]
                 ]   
 
     # Checks if the opening can be created for the object x
@@ -76,6 +82,14 @@ class Section:
                     
     # Draws the faces
     def draw(self):
+        gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL) # on trace les faces : GL_FILL
+        gl.glBegin(gl.GL_QUADS) # Tracé d’un quadrilatère
+        gl.glColor3fv([0.5, 0.5, 0.5]) # Couleur gris moyen
+        gl.glVertex3fv([0, 0, 0])
+        gl.glVertex3fv([1, 0, 0])
+        gl.glVertex3fv([1, 0, 1])
+        gl.glVertex3fv([0, 0, 1])
+        gl.glEnd()   
         # A compléter en remplaçant pass par votre code
         pass
   
