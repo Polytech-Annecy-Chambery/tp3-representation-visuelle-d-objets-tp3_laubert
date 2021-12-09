@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Nov 16 19:47:50 2017
-
-@author: lfoul
-"""
 
 from Configuration import Configuration
 from Section import Section
@@ -16,19 +10,20 @@ import copy
 
 
 def Q1a():
+    return Configuration()
     pass
     
 def Q1b_f():
-    return Configuration({'screenPosition': -5, 'xAxisColor': [1, 1, 0]}). \
-        setParameter('xAxisColor', [1, 1, 0]). \
-        setParameter('yAxisCo lor', [0,1,1]). \
+    return Configuration({'screenPosition': -2, 'xAxisColor': [1, 1, ]}).\
+        setParameter('xAxisColor', [1,0 , 0]). \
+        setParameter('yAxisCo lor', [0,1,0]). \
         display()
         
 def Q2b():
     # Ecriture en utilisant le chaînage
     return Configuration().add(
             Section({'position': [1, 1, 0], 'width':7, 'height':2.6})
-            ) 
+            )
 
 def Q2c():
     # Ecriture en utilisant le chaînage
@@ -95,8 +90,8 @@ def main():
     # Enlever un des commentaires pour la question traitée
     
     configuration = Q1a()
-    # configuration = Q1b_f()
-    # configuration = Q2b()
+    configuration = Q1b_f()
+    configuration = Q2b()
     # configuration = Q2c()
     # configuration = Q3a()
     # configuration = Q4a()
